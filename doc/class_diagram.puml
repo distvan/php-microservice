@@ -1,0 +1,99 @@
+@startuml
+
+class Application {
+-Dispatcher $dispatcher
++void run(ServerRequestInterface $request)
+-ResponseInterface handle(ServerRequestInterface $request)
+-void emit(ResponseInterface $response)
+} 
+
+class Router {
++callable match(ServerRequestInterface $request)
++void add(string $method, string $path, callable $handler)
+}
+
+class Route {
++string $method
++string $path
++callable $handler
++bool matches(ServerRequestInterface $request)
+}
+
+class Container {
+#array $bindings
+#array $instances
++void bind(string $id, callable $resolver) 
++mixed get(string $id)
++bool has(string $id)
+}
+
+class Dispatcher {
++ResponseInterface handle(ServerRequestInterface $request)
+}
+
+class WatermarkController {
+-LoggerInterface $logger
+-WatermarkService $watermarkService
++void __invoke(ServerRequestInterface $request)
+}
+
+class WatermarkService {
++void apply(string $sourceImageUrl, string $outputImage, int $padding)
+-void getLogoPath()
+-string prepareImage(string $path)
+-void cleanTemp(string $file)
+}
+
+class WatermarkServiceFactory {
++WatermarkService create()
+}
+
+class RoutesConfigurator {
++void configure(IRouter $router, ContainerInterface $container)
+}
+
+class ContainerException {}
+class NotFoundException {}
+
+interface ContainerInterface {
++mixed get(string $id)
++bool has(string $id)
+}
+Note right: PSR-11
+
+interface IRouter {
++void add(string $method, string $uri, callable $handler)
++callable match(ServerRequestInterface $request)
+}
+
+interface NotFoundExceptionInterface
+Note left: PSR-11
+
+interface ContainerExceptionInterface
+Note right: PSR-11
+
+interface LoggerInterface {
++void emergency(string $message, array $context)
++void alert(string $message, array $context)
++void critical(string $message, array $context)
++void error(string $message, array $context)
++void warning(string $message, array $context)
++void notice(string $message, array $context)
++void info(string $message, array $context)
++void debug(string $message, array $context)
++void log(string $message, array $context)
+}
+Note right: PSR-3
+
+Application *-- Dispatcher: use
+Dispatcher *-- IRouter: use
+Container ..|> ContainerInterface
+Router ..|> IRouter
+Router *-- Route: use
+WatermarkController *-- LoggerInterface: use
+WatermarkController *-- WatermarkService: use
+WatermarkServiceFactory *-- WatermarkService
+ContainerException *-- ContainerExceptionInterface
+NotFoundException *-- NotFoundExceptionInterface
+
+@enduml
