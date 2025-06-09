@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure;
@@ -38,7 +39,7 @@ class Router implements IRouter
                 return $route->handler;
             }
         }
-        
+
         return null;
     }
 }

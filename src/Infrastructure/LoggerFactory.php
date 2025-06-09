@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure;
@@ -18,7 +19,7 @@ class LoggerFactory
      *
      * @param string $channel
      */
-    public static function create(string $channel='app'): Logger
+    public static function create(string $channel = 'app'): Logger
     {
         $logFileName = !empty($_ENV["LOG_FILE_NAME"]) ? $_ENV["LOG_FILE_NAME"] : "application.log";
         $logLevel = !empty($_ENV["LOG_LEVEL"]) ? $_ENV["LOG_LEVEL"] : "debug";

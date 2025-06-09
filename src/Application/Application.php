@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Application;
@@ -21,7 +22,8 @@ class Application
      */
     public function __construct(
         private Dispatcher $dispatcher
-    ) {}
+    ) {
+    }
 
     /**
      * Run
@@ -35,7 +37,7 @@ class Application
     }
 
     /**
-     * handle
+     * Handle
      *
      * @param ServerRequestInterface $request
      */
@@ -58,7 +60,7 @@ class Application
                 header("$name:$value", false);
             }
         }
-        
+
         echo $response->getBody();
     }
 }

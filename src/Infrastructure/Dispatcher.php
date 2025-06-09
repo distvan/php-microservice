@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure;
@@ -14,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Dispatcher
 {
-    const NOT_FOUND = 404;
+    private const NOT_FOUND = 404;
 
     /**
      * Constructor
@@ -23,7 +24,8 @@ class Dispatcher
      */
     public function __construct(
         private IRouter $router
-    ){}
+    ) {
+    }
 
     /**
      * handle

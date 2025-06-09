@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Image\Service;
@@ -16,11 +17,12 @@ class WatermarkService
      * Apply a watermark to an image
      *
      * @param string $sourceImageUrl Path to the input image (jpg/png)
-     * @param string $outputImage Path to save the watermarked image
-     * @param int $padding Padding from the bottom-right corner in pixels
+     * @param string $outputImage    Path to save the watermarked image
+     * @param int    $padding        Padding from the bottom-right corner in pixels
+     *
      * @throws InvalidArgumentException
      */
-    public function apply(string $sourceImageUrl, string $outputImage, int $padding=10): void
+    public function apply(string $sourceImageUrl, string $outputImage, int $padding = 10): void
     {
         $sourceImage = $this->prepareImage($sourceImageUrl);
 
@@ -50,23 +52,23 @@ class WatermarkService
     }
 
     /**
-     * getLogoPath
+     * GetLogoPath
      * get watermark logo path
      */
     private static function getLogoPath(): string
     {
         $filePath = !empty($_ENV["IMG_LOGO"]) ? $_ENV["IMG_LOGO"] : "Image/logo.png";
-        
+
         return  __DIR__ . "/../../../Storage/" . $filePath;
     }
 
     /**
-    * PrepareImage
-    * Download image from a remote location
-    *
-    * @param string $path
-    * @throws InvalidArgumentException
-    */
+     * PrepareImage
+     * Download image from a remote location
+     *
+     * @param  string $path
+     * @throws InvalidArgumentException
+     */
     private function prepareImage(string $path): string
     {
         if (filter_var($path, FILTER_VALIDATE_URL)) {
@@ -74,7 +76,9 @@ class WatermarkService
             $imageData = file_get_contents($path);
             if ($imageData === false) {
                 $error = error_get_last();
-                throw new InvalidArgumentException("Failed to download image from URL: $path. Error: " . ($error['message'] ?? 'unknown error'));
+                throw new InvalidArgumentException(
+                    "Failed to download image from URL: $path. Error: " . ($error['message'] ?? 'unknown error')
+                );
             }
             file_put_contents($temp, $imageData);
             return $temp;
@@ -87,15 +91,17 @@ class WatermarkService
     }
 
     /**
-    * cleanTemp
-    * Delete temporary files
-    *
-    * @param string $file
-    */
+     * cleanTemp
+     * Delete temporary files
+     *
+     * @param string $file
+     */
     private function cleanTemp(string $file): void
     {
-        if (str_starts_with($file, sys_get_temp_dir()) &&
-            file_exists($file) && !unlink($file)) {
+        if (
+            str_starts_with($file, sys_get_temp_dir())
+            && file_exists($file) && !unlink($file)
+        ) {
                 error_log('');
         }
     }

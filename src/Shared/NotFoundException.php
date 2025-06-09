@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Shared;
@@ -11,4 +12,6 @@ use Psr\Container\NotFoundExceptionInterface;
  *
  * @package App\Shared
  */
-class NotFoundException extends Exception implements NotFoundExceptionInterface{}
+class NotFoundException extends Exception implements NotFoundExceptionInterface
+{
+}

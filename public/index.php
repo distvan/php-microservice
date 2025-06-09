@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Microservice entry point
+ * php version 8.1
+ *
+ * @category PHP_Microservice
+ * @package  PHP_Microservice
+ * @author   Istvan Dobrentei <info@dobrenteiistvan.hu>
+ * @license  https://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link     https://www.en.dobrenteiistvan.hu
+ */
+
 declare(strict_types=1);
 
 use App\Application\Application;
@@ -13,17 +25,6 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Dotenv\Dotenv;
 
-/**
- * Microservice entry point
- * php version 8.1
- *
- * @category PHP_Microservice
- * @package  PHP_Microservice
- * @author   Istvan Dobrentei <info@dobrenteiistvan.hu>
- * @license  https://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.en.dobrenteiistvan.hu
- */
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 //load environment variables
@@ -34,8 +35,12 @@ $dotenv->load();
 $router = new Router();
 $dispatcher = new Dispatcher($router);
 $container = new Container();
-$container->bind(WatermarkController::class, fn() =>
-    new WatermarkController(LoggerFactory::create(), WatermarkServiceFactory::create())
+$container->bind(
+    WatermarkController::class,
+    fn() => new WatermarkController(
+        LoggerFactory::create(),
+        WatermarkServiceFactory::create()
+    )
 );
 
 //setup routes

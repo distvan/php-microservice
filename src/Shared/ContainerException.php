@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Shared;
@@ -11,4 +12,6 @@ use Psr\Container\ContainerExceptionInterface;
  *
  *  @package App\Shared
  */
-class ContainerException extends Exception implements ContainerExceptionInterface{}
+class ContainerException extends Exception implements ContainerExceptionInterface
+{
+}

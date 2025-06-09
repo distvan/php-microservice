@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -27,8 +28,8 @@ class WatermarkController
     public function __construct(
         private LoggerInterface $logger,
         private WatermarkService $watermarkService
-    )
-    {}
+    ) {
+    }
 
     /**
      * __invoke
@@ -44,11 +45,10 @@ class WatermarkController
         if (!$inputPath) {
             return new Response(400, [], "Missing input image.");
         }
-        
+
         try {
             $this->watermarkService->apply($inputPath, $outputPath);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(self::class . " Msg: " . $e->getMessage());
             return new Response(500, [], 'Error: ' . $e->getMessage());
         }
